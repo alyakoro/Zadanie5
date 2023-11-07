@@ -1,27 +1,37 @@
-fun main(args: Array<String>) {
-    print("Введите координаты сторон треугольника: ")
-    print("Сторона x1 и y1: ")
-    var x1 = readln().toInt()
-    var y1 = readln().toInt()
-    print("Сторона x2 и y2: ")
-    var x2 = readln().toInt()
-    var y2 = readln().toInt()
-    print("Сторона x3 и y3: ")
-    var x3 = readln().toInt()
-    var y3 = readln().toInt()
-    val r = 0
-    class treugol_crtoch {
+import kotlin.math.sqrt
 
-        var AB_x = 0
-        var AB_y = 0
-        var BC_x = 0
-        var BC_y = 0
-        var CA_x = 0
-        var CA_y = 0
-        fun main(){
-            AB_x = (x1 + x2)/2
-            AB_y = (y1 + y2)
+data class Point(val x: Double, val y: Double)
+class Triangle(val A: Point, val B: Point, val C: Point) {
+    fun getcen(): Point {
+        val lAB = A.distanceTo(B)
+        val lBC = B.distanceTo(C)
+        val lAC = A.distanceTo(C)
 
-        }
+        val l_all = lAB + lBC + lAC
+
+        val cen_X = (lAB * C.x + lBC * A.x + lAC * B.x) / l_all
+        val cen_Y = (lAB * C.y + lBC * A.y + lAC * B.y) / l_all
+
+        return Point(cen_X, cen_Y)
     }
+}
+
+fun Point.distanceTo(other: Point): Double {
+    val dx = x - other.x
+    val dy = y - other.y
+    return sqrt(dx * dx + dy * dy)
+}
+
+fun main() {
+    val A = Point(0.0, 0.0)
+    val B = Point(4.0, 0.0)
+    val C = Point(2.0, 3.0)
+
+    val triangle = Triangle(A, B, C)
+    val cen = triangle.getcen()
+
+    println("Центр вписанной окружности: (${cen.x}, ${cen.y})")
+
+    val radius = cen.distanceTo(A)
+    println("Радиус вписанной окружности: $radius")
 }
